@@ -146,4 +146,11 @@ input[type='radio']:checked+.custom-radio span {
   margin: 5px;
   margin-top: 70px;
   width: 200px;
+  background: #7A7F87;
+  color: #FFFFFF;
+  max-width: 270px;
+  padding: 1rem;
+  border: 2px solid #C4C4C4;
+  border-radius: 10px;
+  transition: 0.5s ease;
 }
