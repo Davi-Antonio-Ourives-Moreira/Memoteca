@@ -1,6 +1,6 @@
 import { FormsModule } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { PensamentoComponent } from '../pensamento/pensamento.component';
 import { CommonModule } from '@angular/common';
 import { Pensamento } from '../pensamento';
@@ -22,27 +22,26 @@ export class ListarPensamentosComponent implements OnInit {
 
   filtro: string = ''
 
-  filtroExistente!: boolean;
+  favorito = false
 
-  constructor (private service: PensamentoService) {}
+  listasFavoritos: Pensamento[] = []
+
+  titulo: string = 'Meu Mural'
+
+  constructor (
+    private service: PensamentoService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.service.listar(this.paginaAtual, this.filtro).subscribe((listaPensamentos) => {
+    this.service.listar(this.paginaAtual, this.filtro, this.favorito).subscribe((listaPensamentos) => {
       this.listaPensamentos = listaPensamentos
-
-      if (this.listaPensamentos.length < 6){
-        this.haMaisPensamentos = false
-      }
     });
   }
 
   carregarMais(){
-    this.service.listar(++this.paginaAtual, this.filtro).subscribe(listaPensamentos => {
+    this.service.listar(++this.paginaAtual, this.filtro, this.favorito).subscribe(listaPensamentos => {
       this.listaPensamentos.push(...listaPensamentos)
-
-      if (!this.listaPensamentos.length){
-        this.haMaisPensamentos = false;
-      }
     })
   }
 
@@ -50,14 +49,33 @@ export class ListarPensamentosComponent implements OnInit {
     this.paginaAtual = 1
     this.haMaisPensamentos = true;
 
-    this.service.listar(this.paginaAtual, this.filtro).subscribe(listaPensamentos => {
+    this.service.listar(this.paginaAtual, this.filtro, this.favorito).subscribe(listaPensamentos => {
       this.listaPensamentos = listaPensamentos
-
-      this.filtroExistente = true
-
-      if (listaPensamentos.length == 0){
-        this.filtroExistente = false
-      }
     })
+  }
+
+  listasPensamentosFavoritos(){
+    this.titulo = 'Meus Favoritos'
+    this.paginaAtual = 1
+    this.haMaisPensamentos = true;
+    this.favorito = true
+
+    this.service.listar(this.paginaAtual, this.filtro, this.favorito).subscribe(listaPensamentosFavoritos => {
+      this.listaPensamentos = listaPensamentosFavoritos
+
+      this.listasFavoritos = listaPensamentosFavoritos
+    })
+  }
+
+  recarregarComponente(){
+    this.paginaAtual = 1
+
+    this.filtro = ''
+
+    this.favorito = false
+
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate([this.router.url]);
   }
 }
