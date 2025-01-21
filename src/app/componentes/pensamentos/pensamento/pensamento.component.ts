@@ -31,7 +31,7 @@ export class PensamentoComponent implements OnInit {
   }
 
   larguraCardPensamento(): string {
-    if (this.pensamento.conteudo.length >= 256){
+    if (this.pensamento.conteudo.length >= 256 || this.pensamento.autoria.length >= 256){
       return 'pensamento-g';
     }
 
