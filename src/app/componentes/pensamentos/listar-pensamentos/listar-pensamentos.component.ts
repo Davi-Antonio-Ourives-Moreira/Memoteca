@@ -28,6 +28,8 @@ export class ListarPensamentosComponent implements OnInit {
 
   titulo: string = 'Meu Mural'
 
+  parametroTotal = ''
+
   constructor (
     private service: PensamentoService,
     private router: Router
@@ -37,20 +39,41 @@ export class ListarPensamentosComponent implements OnInit {
     this.service.listar(this.paginaAtual, this.filtro, this.favorito).subscribe((listaPensamentos) => {
       this.listaPensamentos = listaPensamentos
     });
+
+    this.service.totalPensamento(this.parametroTotal, this.filtro).subscribe(total =>{
+
+      if (total <= 6){
+        this.haMaisPensamentos = false
+      }
+    })
   }
 
   carregarMais(){
     this.service.listar(++this.paginaAtual, this.filtro, this.favorito).subscribe(listaPensamentos => {
       this.listaPensamentos.push(...listaPensamentos)
+
+      this.service.totalPensamento(this.parametroTotal, this.filtro).subscribe(total =>{
+        if (this.listaPensamentos.length == total){
+          this.haMaisPensamentos = false
+        }
+      })
     })
   }
 
   pesquisarPensamento(){
     this.paginaAtual = 1
     this.haMaisPensamentos = true;
+    this.parametroTotal = 'q'
 
     this.service.listar(this.paginaAtual, this.filtro, this.favorito).subscribe(listaPensamentos => {
       this.listaPensamentos = listaPensamentos
+
+      this.service.totalPensamento(this.parametroTotal, this.filtro).subscribe(total =>{
+
+        if (this.listaPensamentos.length == total || total <= 6){
+          this.haMaisPensamentos = false
+        }
+      })
     })
   }
 
@@ -59,11 +82,19 @@ export class ListarPensamentosComponent implements OnInit {
     this.paginaAtual = 1
     this.haMaisPensamentos = true;
     this.favorito = true
+    this.parametroTotal = 'favoritos'
 
     this.service.listar(this.paginaAtual, this.filtro, this.favorito).subscribe(listaPensamentosFavoritos => {
       this.listaPensamentos = listaPensamentosFavoritos
 
       this.listasFavoritos = listaPensamentosFavoritos
+
+      this.service.totalPensamento(this.parametroTotal, this.filtro).subscribe(total =>{
+
+        if (this.listaPensamentos.length == total || total <= 6){
+          this.haMaisPensamentos = false
+        }
+      })
     })
   }
 
@@ -73,6 +104,8 @@ export class ListarPensamentosComponent implements OnInit {
     this.filtro = ''
 
     this.favorito = false
+
+    this.parametroTotal = ''
 
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.router.onSameUrlNavigation = 'reload';

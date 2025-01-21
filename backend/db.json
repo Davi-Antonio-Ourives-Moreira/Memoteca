@@ -12,7 +12,63 @@
       "conteudo": "Teste favorito",
       "autoria": "Davi",
       "modelo": "modelo2",
-      "favoritos": false
+      "favoritos": true
+    },
+    {
+      "id": 201631466,
+      "conteudo": "adadada",
+      "autoria": "ddadadada",
+      "modelo": "modelo1",
+      "favoritos": true
+    },
+    {
+      "id": 310660103,
+      "conteudo": "dadadad",
+      "autoria": "adadadada",
+      "modelo": "modelo1",
+      "favoritos": true
+    },
+    {
+      "id": 530153034,
+      "conteudo": "dadadada",
+      "autoria": "dada",
+      "modelo": "modelo1",
+      "favoritos": true
+    },
+    {
+      "id": 66727858,
+      "conteudo": "dadada",
+      "autoria": "adadadaad",
+      "modelo": "modelo1",
+      "favoritos": true
+    },
+    {
+      "id": 270556667,
+      "conteudo": " return this.http.get<Pensamento[]>(this.API).pipe(     map((pensamentos: Pensamento[]) => pensamentos.length) // Conta o número de itens no array   );",
+      "autoria": " return this.http.get<Pensamento[]>(this.API).pipe(     map((pensamentos: Pensamento[]) => pensamentos.length) // Conta o número de itens no array   );",
+      "modelo": "modelo1",
+      "favoritos": true
+    },
+    {
+      "id": 859636091,
+      "conteudo": "dadadada",
+      "autoria": "dadadadadada",
+      "modelo": "modelo1",
+      "favoritos": true
+    },
+    {
+      "id": 101580820,
+      "conteudo": "dadadada",
+      "autoria": "dadadadada",
+      "modelo": "modelo1",
+      "favoritos": true
+    },
+    {
+      "id": 174235622,
+      "conteudo": "dadadadada",
+      "autoria": "dadadadada",
+      "modelo": "modelo1",
+      "favoritos": true
     }
   ]
 }

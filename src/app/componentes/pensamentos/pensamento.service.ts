@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Pensamento } from './pensamento';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -52,5 +52,19 @@ export class PensamentoService {
   buscarPorId(id: number): Observable<Pensamento> {
     const url = `${this.API}/${id}`
     return this.http.get<Pensamento>(url)
+  }
+
+  totalPensamento(parametroTotal: string, filtro: string): Observable<number> {
+    let params = new HttpParams();
+
+    if (parametroTotal === 'q') {
+      params = params.set('q', filtro);
+    } else if (parametroTotal === 'favoritos') {
+      params = params.set('favoritos', true);
+    }
+
+    return this.http.get<Pensamento[]>(this.API, { params }).pipe(
+      map((pensamentos: Pensamento[]) => pensamentos.length)
+    );
   }
 }
